@@ -7,7 +7,7 @@ public class Main {
     static boolean clientStart = false;
     static boolean serverStart = false;
     static String serverHost,clientHost,serverPort,clientPort,serverLog,clientLog;
-    static String configFile = "C:\\Users\\zaiga\\IdeaProjects\\untitled2\\src\\lab4\\config";
+    static String configFile = "C:\\Users\\zaiga\\IdeaProjects\\JavaLab\\src\\lab4\\config";
     static String clientName = "Unnumed"+Double.hashCode(Math.random());
     public static void main(String[] arg){
         parseSetting(arg);

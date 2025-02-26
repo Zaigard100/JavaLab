@@ -26,6 +26,7 @@ public class Service {
         if(operator=='+') result += currentVal;
         else if (operator=='-') result -= currentVal;
 
+        operator = op;
         if(op=='='){
             double r = result;
             result = 0;
@@ -33,7 +34,6 @@ public class Service {
             operator = '+';
             return "Result: "+ r;
         }
-
         return "Successful";
     }
 }

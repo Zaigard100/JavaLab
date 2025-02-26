@@ -1,0 +1,34 @@
+[2025-02-26T18:03:12.993810500] Server: Successful
+[2025-02-26T18:03:18.650967400] Server: Successful
+[2025-02-26T18:03:28.626393800] Server: Successful
+[2025-02-26T18:03:41.062301900] Server: Result: 7.58
+[2025-02-26T18:18:35.504890900] Server: server: 127.0.0.1:64116 conetsion's successful
+[2025-02-26T18:20:21.298056] Server: Invalid operator: use"+", "-" or "=" after number
+[2025-02-26T18:20:27.225612900] Server: Invalid operator: use"+", "-" or "=" after number
+[2025-02-26T18:20:32.459262900] Server: hj  is invalid number format
+[2025-02-26T18:20:41.083309600] Server: Invalid operator: use"+", "-" or "=" after number
+[2025-02-26T18:20:51.747542400] Server: Successful
+[2025-02-26T18:21:01.204755] Server: Result: 3.4E-9
+[2025-02-26T18:21:42.197798500] Server: 127.0.0.1:60687 conetsion's successful
+[2025-02-26T18:21:54.015520400] Server: Successful
+[2025-02-26T18:22:13.099565900] Server: Successful
+[2025-02-26T18:25:14.461916200] Server: 127.0.0.1:64278 conetsion's successful
+[2025-02-26T18:25:38.749130100] Server: Successful
+[2025-02-26T18:25:46.192500300] Server: Result: 11.0
+[2025-02-26T18:26:00.615925600] Server: Successful
+[2025-02-26T18:26:05.094511800] Server: Result: 35.9921
+[2025-02-26T18:26:21.367384500] Server: Successful
+[2025-02-26T18:26:25.543850700] Server: Successful
+[2025-02-26T18:26:29.065213100] Server: Invalid operator: use"+", "-" or "=" after number
+[2025-02-26T18:26:32.104455900] Server: Result: 12.0
+[2025-02-26T18:28:14.081092700] Server: 127.0.0.1:50931 conetsion's successful
+[2025-02-26T18:28:54.885175100] Server: 127.0.0.1:63728 conetsion's successful
+[2025-02-26T18:29:07.512513600] Server: Successful
+[2025-02-26T18:29:10.000688] Server: Successful
+[2025-02-26T18:29:19.536855100] Server: Result: 22.0
+[2025-02-26T18:31:40.346115500] Server: Invalid operator: use"+", "-" or "=" after number
+[2025-02-26T18:32:23.456900900] Server: 127.0.0.1:63728 conetsion's successful
+[2025-02-26T18:32:27.927364] Server: 127.0.0.1:59487 conetsion's successful
+[2025-02-26T18:32:41.460430300] Server: Successful
+[2025-02-26T18:32:47.659289] Server: Successful
+[2025-02-26T18:32:50.685302800] Server: Result: 17.0

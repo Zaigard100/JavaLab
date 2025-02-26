@@ -1,12 +1,10 @@
 package lab4;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.io.*;
+import java.net.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UDPClient{
@@ -21,50 +19,59 @@ public class UDPClient{
         this.name = name;
     }
     public void run() {
-        try{
-            byte data[] = ("connect:"+name).getBytes();
-            InetAddress addr = InetAddress.getByName(host);
-            DatagramSocket socket = new DatagramSocket();
-            DatagramPacket packet = new DatagramPacket(data, data.length, addr, port);
-            socket.send(packet);
-
-            byte data2[];
-            data2 = new byte[LENGTH_PACKET];
-            packet = new DatagramPacket(data2, data2.length);
-            socket.receive(packet);
-            System.out.println((new String(packet.getData())).trim());
-
-            System.out.println("Сообщение на подключение отправлено...");
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            String command = "";
-            while (true){
-                System.out.print("Введите  команду: ");
-                command = br.readLine();
-                if(command.equals("exit")){
-                    data = (name+":exit").getBytes();
-                    packet = new DatagramPacket(data, data.length, addr, port);
+        try( DatagramSocket socket = new DatagramSocket() ){
+            socket.setSoTimeout(5000);
+            try (PrintWriter log = new PrintWriter(new FileWriter(logFile, true))) {
+                connect(socket, host, port, log);
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                while (true) {
+                    System.out.print("Enter message (exit to quit): ");
+                    String input = in.readLine();
+                    if ("exit".equalsIgnoreCase(input)){
+                        byte[] buffer = "exit".getBytes();
+                        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(host), port);
+                        socket.send(packet);
+                        break;
+                    }
+                    byte[] buffer = input.getBytes();
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(host), port);
                     socket.send(packet);
 
-                    packet = new DatagramPacket(data2, data2.length);
-                    socket.receive(packet);
-                    System.out.println((new String(packet.getData())).trim());
-                    break;
+                    byte[] response = new byte[LENGTH_PACKET];
+                    DatagramPacket responsePacket = new DatagramPacket(response, response.length);
+                    try {
+                        socket.receive(responsePacket);
+                        String res = new String(responsePacket.getData(), 0, responsePacket.getLength());
+                        log.println("["+LocalDateTime.now() + "] Server: " + res);
+                        log.flush();
+                        System.out.println("Server: " + res);
+                    } catch (SocketTimeoutException e) {
+                        System.out.println("Timeout");
+                    }
                 }
-                data = (name+":command:"+command).getBytes();
-                packet = new DatagramPacket(data, data.length, addr, port);
-                socket.send(packet);
-
-                packet = new DatagramPacket(data2, data2.length);
-                socket.receive(packet);
-                System.out.println((new String(packet.getData())).trim());
-                packet.setData(new byte[]{0});
             }
-            socket.close();
-            //in.close();
-        }catch(SocketException e){
-            e.printStackTrace();
         }catch(IOException e){
             e.printStackTrace();
         }
     }
+
+    private void connect(DatagramSocket socket, String host, int port, PrintWriter log) throws IOException {
+        byte[] buffer = "connect".getBytes();
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(host), port);
+        socket.send(packet);
+
+        byte[] response = new byte[LENGTH_PACKET];
+        DatagramPacket responsePacket = new DatagramPacket(response, response.length);
+        try {
+            socket.receive(responsePacket);
+            String res = new String(responsePacket.getData(), 0, responsePacket.getLength());
+            log.println("["+LocalDateTime.now() + "] Server: " + res);
+            log.flush();
+            System.out.println("Server: " + res);
+        } catch (SocketTimeoutException e) {
+            System.out.println("Timeout");
+        }
+
+    }
+
 }

@@ -1,14 +1,18 @@
 package lab4;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class UDPServer extends Thread{
-    HashMap<String,Client> serviceHashMap;
+    HashMap<String,Service> serviceHashMap;
 
     public static final int LENGTH_PACKET = 30;
     private String host,logFile;
@@ -20,95 +24,41 @@ public class UDPServer extends Thread{
         serviceHashMap = new HashMap<>();
     }
     public  void run() {
-        DatagramSocket servSocket = null;
-        DatagramPacket datagram;
-        InetAddress clientAddr;
-        int clientPort;
-        byte[] data;
-        try{
-            servSocket = new DatagramSocket(port);
-        }catch(SocketException e){
-            System.err.println("Не удаётся открыть сокет : " + e.toString());
-        }
+        try( DatagramSocket socket = new DatagramSocket(port) ){
 
-        while(true){
-            try{
-            data = new byte[LENGTH_PACKET];
-            datagram = new DatagramPacket(data, data.length);
-            servSocket.receive(datagram);
-            String textData = new String(datagram.getData()).trim();
-            String[] spl = textData.split(":");
-            Client client;
-            if(spl.length<2) continue;
-            if(spl[0].equals("connect")&&spl.length==2){
-                client = new Client(spl[1],datagram.getAddress(),datagram.getPort());
-                serviceHashMap.put(spl[1],client);
-                System.out.println(client.name+":"+spl[1]+" conetsion's successful");
-                datagram.setData(("server: "+spl[1]+" conetsion's successful").getBytes());
-                data = ("server: "+spl[1]+" conetsion's successful").getBytes();
-                datagram = new DatagramPacket(data, data.length, client.getAddress(), client.getPort());
-            }else{
-                client = serviceHashMap.get(spl[0]);
-                if(spl[1].equals("command")&&spl.length==3){
-                    String r = client.service.exec(spl[2]);
-                    System.out.println(client.name+":"+r);
-                    datagram.setData(("server: "+ r).getBytes());
-                    data = ("server: "+ r).getBytes();
-                    datagram = new DatagramPacket(data, data.length, client.getAddress(), client.getPort());
-                }
-                if(spl[1].equals("exit")&&spl.length==2){
-                    serviceHashMap.remove(spl[0]);
-                    System.out.println(client.name+" disconect");
-                    datagram.setData(("server: "+ "disconnect").getBytes());
-                    data = ("server: "+ "disconnect").getBytes();
-                    datagram = new DatagramPacket(data, data.length, client.getAddress(), client.getPort());
+            try( PrintWriter log = new PrintWriter(new BufferedWriter(new FileWriter(logFile,true))) ){
+                while(true){
+                    byte[] buf = new byte[LENGTH_PACKET];
+                    DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                    socket.receive(packet);
+                    String message = new String(packet.getData(),0,packet.getLength()).trim();
+                    InetAddress address = packet.getAddress();
+                    int port = packet.getPort();
+                    String key = address.getHostAddress()+":"+port;
+
+                    log.println("["+ LocalDateTime.now()+"] "+key+": "+message);
+                    log.flush();
+
+                    if(message.equalsIgnoreCase("exit")){
+                        serviceHashMap.remove(key);
+                        System.out.println(key+" disconnected");
+                    }else if(message.equalsIgnoreCase("connect")){
+                        serviceHashMap.put(key,new Service());
+                        sendMessage(socket,key+" conetsion's successful",address,port);
+                        System.out.println(key+" conetsion's successful");
+                    }else{
+                        Service currentSession = serviceHashMap.getOrDefault(key, new Service());
+                        sendMessage(socket,currentSession.exec(message),address,port);
+                    }
                 }
             }
-            servSocket.send(datagram);
-            datagram.setData(new byte[]{0});
         }catch(IOException e){
-                System.err.println("io исключение : " + e.toString());
-            }
+            e.printStackTrace();
         }
     }
-
-    private class Client{
-        String name;
-        InetAddress address;
-        int port;
-        Service service;
-
-        public Client(String name, InetAddress address, int port) {
-            this.name = name;
-            this.address = address;
-            this.port = port;
-            service = new Service();
-        }
-
-        public boolean eq(InetAddress addr,int port) {
-            return port == this.port && addr.equals(this.address);
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public InetAddress getAddress() {
-            return address;
-        }
-
-        public void setAddress(InetAddress address) {
-            this.address = address;
-        }
-
-        public int getPort() {
-            return port;
-        }
-
-        public void setPort(int port) {
-            this.port = port;
-        }
-
+    private void sendMessage(DatagramSocket socket, String message,InetAddress address,int port) throws IOException {
+        byte[] response = message.getBytes();
+        DatagramPacket responsePacket = new DatagramPacket(response, response.length, address, port);
+        socket.send(responsePacket);
     }
-
 }
