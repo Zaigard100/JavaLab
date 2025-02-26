@@ -1,0 +1,10 @@
+Console print:Input a file: 
+Console print:StaRT
+Console print:75
+Object "class java.lang.Integer(42)" equals 42
+Console print:505
+Object "class java.lang.Integer(42)" equals 42
+Console print:4949
+Console print:9089
+Object "class java.lang.Integer(42)" equals 42
+Object "class java.lang.Integer(42)" equals 42

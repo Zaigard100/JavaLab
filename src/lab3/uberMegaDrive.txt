@@ -1,0 +1,2 @@
+12 75 42 39 505 27 42 4949 9089 -13 24 6 42 -9 42 7
+C:\Users\zaiga\IdeaProjects\untitled2\src\lab3\out.txt
