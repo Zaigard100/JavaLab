@@ -15,8 +15,8 @@ public class ComputePi {
             String name = "ICompute";
             Registry registry = LocateRegistry.getRegistry(args[0]);
             ICompute compute = (ICompute) registry.lookup(name);
-            Pi task = new Pi(Integer.parseInt(args[1]));
-            BigDecimal pi = compute.executeTask(task);
+            Pi task = new Pi(args);
+            String pi = compute.executeTask(task);
             System.out.println(pi);
         }catch (Exception e) {
             e.printStackTrace();

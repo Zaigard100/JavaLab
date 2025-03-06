@@ -6,43 +6,43 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Pi implements Task<BigDecimal>, Serializable {
+public class Pi implements Task<String>, Serializable {
 
     private static final long serialVersionUID = 228L;
 
     private static final BigDecimal FOUR = BigDecimal.valueOf(4);
     private static final int roundingMode = RoundingMode.HALF_EVEN.ordinal();
-    private final int digits;
+    private final String[] args;
 
-    public Pi(int digits) {
-        this.digits = digits;
+    public Pi(String[] args) {
+        this.args = args;
     }
 
     @Override
-    public BigDecimal execute() {
-        return computePi(digits);
+    public String execute() {
+        return computePi(args);
     }
 
-    public static BigDecimal computePi(int digits) {
-        int scale = digits + 5;
-        BigDecimal arctan1_5 = arctan(5, scale);
-        BigDecimal arctan1_239 = arctan(239, scale);
-        BigDecimal pi = arctan1_5.multiply(FOUR).subtract( arctan1_239).multiply(FOUR);
-        return pi.setScale(digits, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public static BigDecimal arctan(int inverseX, int scale) {
-        BigDecimal result, numer, term;
-        BigDecimal invX = BigDecimal.valueOf(inverseX);
-        BigDecimal invX2 = BigDecimal.valueOf(inverseX * inverseX);
-        numer = BigDecimal.ONE.divide(invX, scale, roundingMode);
-        result = numer;
-        int i = 1;
-        do {
-            numer = numer.divide(invX2, scale, roundingMode);
-            int denom = 2 * i + 1; term = numer.divide(BigDecimal.valueOf(denom), scale, roundingMode);
-            if ((i % 2) != 0) { result = result.subtract(term); } else { result = result.add(term); } i++;
-        } while (term.compareTo(BigDecimal.ZERO) != 0);
-        return result;
+    public static String computePi(String[] args) {
+        StringBuilder r = new StringBuilder("\n");
+        int M = 42;
+        int count = 0;
+        for(int i = 1;i < args.length;++i){
+            int n = -1;
+            try{
+                n = Integer.parseInt(args[i]);
+            }catch(NumberFormatException e){
+                r.append(args[i]).append(" is not digit\n");
+            }
+            if(n>M){
+                r.append(args[i]).append(" is greater than m\n");
+                count++;
+            }
+        }
+        if(count==0){
+            r.append("Number greader ").append(M).append(" not found\n");
+        }
+        //System.out.println(r.toString());
+        return r.append("Found " ).append(count).append(" number(s) greader ").append(M).toString();
     }
 }
