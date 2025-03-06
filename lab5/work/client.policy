@@ -1,0 +1,4 @@
+grant {
+    permission java.security.AllPermission;
+    permission java.net.SocketPermission "localhost:1099", "listen,accept,connect,resolve";
+};

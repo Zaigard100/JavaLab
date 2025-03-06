@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ComputeEngine" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="server.ComputeEngine" />
+    <module name="lab5" />
+    <option name="VM_PARAMETERS" value="-Djava.rmi.server.codebase=file:/./lab5/work/compute/ -Djava.rmi.server.hostname=ZAIGARD100 -Djava.security.policy=./lab5/work/server.policy" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

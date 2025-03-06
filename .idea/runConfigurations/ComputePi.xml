@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ComputePi" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
+    <option name="MAIN_CLASS_NAME" value="client.ComputePi" />
+    <module name="lab5" />
+    <option name="PROGRAM_PARAMETERS" value="ZAIGARD100 45" />
+    <option name="VM_PARAMETERS" value="-Djava.rmi.server.codebase=file:/./lab5/work/compute/ -Djava.security.policy=./lab5/work/client.policy" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
