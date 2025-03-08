@@ -14,7 +14,7 @@ public class CreatePanel extends JPanel {
     JComboBox<String> colorBox = new JComboBox<>(new String[]{"Red", "Green", "Blue", "Yellow", "Cyan"});
     JComboBox<ObjType> typeBox = new JComboBox<>(new ObjType[]{ObjType.IMG, ObjType.TEXT});
     JComboBox<Integer> speedBox = new JComboBox<>(new Integer[]{1,2,3,4,5,6});
-    JTextField parameterField = new JTextField(255);
+    JTextArea parameterField = new JTextArea();
     JTextField xField = new JTextField(5);
     JTextField yField = new JTextField(5);
     JTextField wField = new JTextField(5);

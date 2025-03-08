@@ -21,7 +21,7 @@ public class ControlFrame extends JFrame {
     public ControlFrame(World world) {
         this.world = world;
         setTitle("Управляющее окно");
-        setSize(world.getW(), world.getH());
+        setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -37,6 +37,7 @@ public class ControlFrame extends JFrame {
 
         add(objectList, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
+        creationPanel.setCurent((Obj) objectList.getSelectedItem());
 
     }
 
