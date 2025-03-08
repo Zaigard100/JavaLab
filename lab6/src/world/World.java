@@ -1,16 +1,20 @@
-import java.util.ArrayList;
+package world;
+
+import utils.ImgManager;
 
 public class World {
     private int w;
     private int h;
     Obj[] objs;
+    ImgManager imgManager;
     public World(int width,int height, int objCount) {
         objs = new Obj[objCount];
         for (int i = 0; i < objCount; i++) {
-            objs[i] = new Obj();
+            objs[i] = new Obj(this);
         }
         w = width;
         h = height;
+        imgManager = new ImgManager();
     }
 
     public String[] getNameList() {

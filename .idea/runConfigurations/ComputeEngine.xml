@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ComputeEngine" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="ComputeEngine" type="Application" factoryName="Application" folderName="lab5" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="server.ComputeEngine" />

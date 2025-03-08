@@ -1,58 +1,59 @@
 package windows;
 
+import windows.panels.CreatePanel;
+import windows.panels.EditPanel;
+import world.Obj;
+import world.ObjType;
+import world.World;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ControlFrame extends JFrame {
-    private DisplayFrame displayFrame;
+    private JComboBox<Obj> objectList;
+    private JPanel cardPanel;
+    private CreatePanel creationPanel;
+    private EditPanel editPanel;
+    private World world;
 
-    static int objCount = 7;
+    int currentCard = 0;
 
-    public ControlFrame(DisplayFrame displayFrame) {
-        this.displayFrame = displayFrame;
-
+    public ControlFrame(World world) {
+        this.world = world;
         setTitle("Управляющее окно");
-        setSize(500, 500);
+        setSize(world.getW(), world.getH());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Центрирование окна
+        setLocationRelativeTo(null);
 
-        // Создаем панель с кнопками
-        JPanel panel = new JPanel();
+        objectList = new JComboBox<>(world.getObjs());
+        objectList.addActionListener(e -> showPanelForSelected());
 
-        JButton button1 = new JButton("Показать сообщение 1");
-        JButton button2 = new JButton("Показать сообщение 2");
-        JButton button3 = new JButton("Очистить");
+        cardPanel = new JPanel(new CardLayout());
+        creationPanel = new CreatePanel(this);
+        editPanel = new EditPanel(this);
 
-        // Добавляем обработчики событий для кнопок
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayFrame.updateText("Сообщение 1");
-            }
-        });
+        cardPanel.add(creationPanel, "CREATE");
+        cardPanel.add(editPanel, "EDIT");
 
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayFrame.updateText("Сообщение 2");
-            }
-        });
+        add(objectList, BorderLayout.NORTH);
+        add(cardPanel, BorderLayout.CENTER);
 
-        button3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayFrame.updateText("");
-            }
-        });
-
-        // Добавляем кнопки на панель
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
-
-        // Добавляем панель в окно
-        add(panel);
     }
+
+    private void showPanelForSelected() {
+        CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+        Obj selectedObj = (Obj) objectList.getSelectedItem();
+        if(selectedObj.getType() == ObjType.EMPTY) {
+            cardLayout.show(cardPanel, "CREATE");
+            creationPanel.setCurent(selectedObj);
+        }else {
+            cardLayout.show(cardPanel, "EDIT");
+            editPanel.setCurentObj(selectedObj);
+        }
+    }
+
+    public void updateObjectList() {
+
+    }
+
 }

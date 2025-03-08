@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -12,15 +13,19 @@ public class UDPServer extends Thread{
     HashMap<String,Service> serviceHashMap;
 
     public static final int LENGTH_PACKET = 30;
-    private String host,logFile;
+    private String logFile;
     private int port;
-    public UDPServer(String host,int port,String logFile){
-        this.host = host;
+    public UDPServer(int port,String logFile){
         this.port = port;
         this.logFile = logFile;
         serviceHashMap = new HashMap<>();
     }
     public  void run() {
+        try {
+            System.out.println("UDP Server started in " + InetAddress.getLocalHost()+":"+port);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
         try( DatagramSocket socket = new DatagramSocket(port) ){
 
             try( PrintWriter log = new PrintWriter(new BufferedWriter(new FileWriter(logFile,true))) ){

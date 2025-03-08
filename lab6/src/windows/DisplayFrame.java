@@ -1,25 +1,18 @@
 package windows;
 
+import windows.panels.DrawPanel;
+import world.World;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class DisplayFrame extends JFrame {
-    private JLabel displayLabel;
-
-    public DisplayFrame() {
+    private Timer gameTimer;
+    public DisplayFrame(World world) {
         setTitle("Демонстрационное окно");
-        setSize(400, 300);
+        setSize(world.getW(), world.getH());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Центрирование окна
-
-        // Создаем метку для отображения текста
-        displayLabel = new JLabel("Здесь будет информация", SwingConstants.CENTER);
-        displayLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        add(displayLabel, BorderLayout.CENTER);
-    }
-
-    // Метод для обновления текста в демонстрационном окне
-    public void updateText(String text) {
-        displayLabel.setText(text);
+        DrawPanel drawPanel = new DrawPanel(world);
+        add(drawPanel);
     }
 }

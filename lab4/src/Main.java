@@ -4,8 +4,8 @@ import java.util.Scanner;
 public class Main {
     static boolean clientStart = false;
     static boolean serverStart = false;
-    static String serverHost,clientHost,serverPort,clientPort,serverLog,clientLog;
-    static String configFile = "C:\\Users\\zaiga\\IdeaProjects\\JavaLab\\src\\lab4\\config";
+    static String clientHost,serverPort,clientPort,serverLog,clientLog;
+    static String configFile = "C:\\Users\\zaiga\\IdeaProjects\\JavaLab\\lab4\\src\\config";
     static String clientName = "Unnumed"+Double.hashCode(Math.random());
     public static void main(String[] arg){
         parseSetting(arg);
@@ -16,7 +16,7 @@ public class Main {
         }
         consoleConfig();
         if(serverStart) {
-            UDPServer server = new UDPServer(serverHost,Integer.parseInt(serverPort),serverLog);
+            UDPServer server = new UDPServer(Integer.parseInt(serverPort),serverLog);
             server.start();
         }
         if(clientStart) {
@@ -39,9 +39,6 @@ public class Main {
                     break;
                 case "-name","-n":
                     clientName = arg[i+1];
-                    break;
-                case "-serverHost","-sH":
-                    if(serverHost==null) serverHost = arg[i+1];
                     break;
                 case "-clientHost","-cH":
                     if(clientHost==null) clientHost = arg[i+1];
@@ -73,10 +70,6 @@ public class Main {
     }
     static void consoleConfig(){
         Scanner in = new Scanner(System.in);
-        if(serverHost==null&&serverStart) {
-            System.out.println("Server Host: ");
-            serverHost = in.nextLine();
-        }
         if(clientHost==null&&clientStart){
             System.out.println("Client Host: ");
             clientHost = in.nextLine();
