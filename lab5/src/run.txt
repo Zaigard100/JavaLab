@@ -1,0 +1,32 @@
+compile
+
+"C:\Program Files\Java\jdk-1.8\bin\javac.exe" -d work ./src/compute/*
+"C:\Program Files\Java\jdk-1.8\bin\javac.exe" -cp work -d work ./src/client/*
+"C:\Program Files\Java\jdk-1.8\bin\javac.exe" -cp work -d work ./src/server/*
+---
+rmi
+
+"C:\Program Files\Java\jdk-1.8\bin\rmiregistry.exe"
+---
+server
+
+"C:\Program Files\Java\jdk-1.8\bin\java.exe" `
+-Djava.rmi.server.useCodebaseOnly=false `
+-Djava.rmi.server.codebase=ftp://192.168.0.15:2004/device/java/work/compute/ `
+-Djava.security.policy=C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\server.policy
+-cp "C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\server;ftp://192.168.0.15:2004/device/java/work/compute/" `
+server.ComputeEngine
+
+"C:\Program Files\Java\jdk-1.8\bin\java.exe" -Djava.rmi.server.useCodebaseOnly=false -Djava.rmi.server.codebase=file://C:/Users/zaiga/IdeaProjects/JavaLab/lab5/work -Djava.security.policy=C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\server.policy -cp "C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work;C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\compute" server.ComputeEngine
+
+---
+client
+
+"C:\Program Files\Java\jdk-1.8\bin\java.exe" `
+-Djava.rmi.server.useCodebaseOnly=false
+-Djava.rmi.server.codebase=ftp://192.168.0.15:2004/device/java/work/compute/ `
+-Djava.security.policy=C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\client.policy `
+-cp "C:\Users\zaiga\IdeaProjects\JavaLab\lab5\work\client;ftp://192.168.0.15:2004/device/java/work/compute/" `
+client.ComputePi
+
+"file://G:/Другие компьютеры/Компьютер/Obsidian Vault/compute"

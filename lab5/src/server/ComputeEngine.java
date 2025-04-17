@@ -8,14 +8,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class ComputeEngine implements ICompute {
+public class ComputeEngine extends UnicastRemoteObject implements ICompute {
 
-    public ComputeEngine(){
+    public ComputeEngine() throws RemoteException {
         super();
     }
 
     @Override
     public <T> T executeTask(Task<T> task) throws RemoteException {
+        System.out.println("Выполняю задачу: " + task.getClass().getSimpleName());
         return task.execute();
     }
 
@@ -26,22 +27,14 @@ public class ComputeEngine implements ICompute {
         try{
             String name = "ICompute";
             ICompute compute = new ComputeEngine();
-            ICompute stub = (ICompute) UnicastRemoteObject.exportObject(compute, 0);
+            //ICompute stub = (ICompute) UnicastRemoteObject.exportObject(compute, 0);
             Registry registry = LocateRegistry.getRegistry();
-            registry.rebind(name, stub);
+            registry.rebind(name, compute);
+            System.out.println("Сервер готов принимать задачи");
         }catch (Exception e){
             e.printStackTrace();
         }
-        int i = 0;
-        while(true){
-            System.out.print(i+" ");
-            i++;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
 
     }
 

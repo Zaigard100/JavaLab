@@ -1,1 +1,0 @@
-"C:\Program Files\Java\jdk-1.8\bin\java.exe" -cp client;compute -Djava.rmi.server.codebase=file:./compute/ -Djava.security.policy=.\client.policy client.ComputePi ZAIGARD100 45
